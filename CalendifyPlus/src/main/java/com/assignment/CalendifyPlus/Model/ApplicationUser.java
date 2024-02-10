@@ -18,6 +18,4 @@ public class ApplicationUser extends BaseEntity{
     private String userName;
     private String email;
     Map<String, List<List<String>>> eventLists;
-//    Map<String,Map<String, List<List<String>>>> eventLists;
-//    Map<String,String> groupeventLists;
 }

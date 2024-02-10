@@ -30,12 +30,12 @@ public class RetriveRestController {
     }
 
     @GetMapping("/fetchEvent")
-    public ResponseEntity<List<Event>> fetchEvent(@RequestBody EventRequestDto eventRequestDto) {
+    public ResponseEntity fetchEvent(@RequestBody EventRequestDto eventRequestDto) {
         return retriveRestService.fetchEvent(eventRequestDto);
     }
 
     @GetMapping("/fetchConflict")
-    public ResponseEntity<String> fetchConflict(@RequestBody EventRequestDto eventRequestDto) {
+    public ResponseEntity fetchConflict(@RequestBody EventRequestDto eventRequestDto) {
         return retriveRestService.fetchConflict(eventRequestDto);
     }
 

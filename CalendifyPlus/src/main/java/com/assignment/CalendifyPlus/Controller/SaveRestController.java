@@ -17,11 +17,11 @@ public class SaveRestController {
     SaveRestService saveRestService;
 
     @PostMapping("/addNewUser")
-    public ResponseEntity<String> createUser(@RequestBody ApplicationUser user) {
+    public ResponseEntity createUser(@RequestBody ApplicationUser user) {
         return saveRestService.createUser(user);
     }
     @PostMapping("/addEvent")
-    public ResponseEntity<String> createEvent (@RequestBody Event event) {
+    public ResponseEntity createEvent (@RequestBody Event event) {
         return saveRestService.createEvent(event);
     }
 }
