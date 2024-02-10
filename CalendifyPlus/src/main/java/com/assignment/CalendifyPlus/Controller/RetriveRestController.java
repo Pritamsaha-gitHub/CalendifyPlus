@@ -40,7 +40,7 @@ public class RetriveRestController {
     }
 
     @GetMapping("/fetchUpcomingSlot")
-    public ResponseEntity<List<List<LocalTime>>> fetchUpcomingSlot(@RequestBody SlotRequestDto slotRequestDto) {
+    public ResponseEntity fetchUpcomingSlot(@RequestBody SlotRequestDto slotRequestDto) {
         return retriveRestService.fetchUpcomingSlot(slotRequestDto);
     }
 }

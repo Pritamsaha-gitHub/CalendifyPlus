@@ -270,85 +270,96 @@ public class RetriveRestService {
 
     public ResponseEntity<String> fetchUpcomingSlot(SlotRequestDto slotRequestDto) {
 
-//        List<List<LocalTime>> lacaltimeList = new ArrayList<>();
-//        for (String userId : slotRequestDto.getRequiredUserIds()) {
-//            List<ApplicationUser> user = repositoryHandler.findByField("_id",userId, ApplicationUser.class);
-//            List<List<String>> eventList = user.get(0).getEventLists().get(slotRequestDto.getDate());
-//            for (List currentList : eventList) {
-//                String eventId =currentList.get(2).toString();
-//                lacaltimeList.add(Arrays.asList(localTimeConverter(currentList.get(0).toString()),localTimeConverter(currentList.get(1).toString())));
-//            }
-//        }
-//        lacaltimeList.sort((list1, list2) -> list1.get(0).compareTo(list2.get(0)));
-//
-//        List<List<LocalTime>> finalEventTimeList = new ArrayList<>();
-//        LocalTime currentStartTime = null;
-//        LocalTime currentEndTime = null;
-//
-//        for (List<LocalTime> timeRange : lacaltimeList) {
-//            LocalTime startTime = timeRange.get(0);
-//            LocalTime endTime = timeRange.get(1);
-//            if (currentStartTime == null && currentEndTime == null) {
-//                // Initialize current start and end times
-//                currentStartTime = startTime;
-//                currentEndTime = endTime;
-//            } else {
-//                if (startTime.isBefore(currentEndTime) || startTime.equals(currentEndTime)) {
-//                    // If the current event overlaps with the previous one or starts immediately after it
-//                    currentEndTime = currentEndTime.isBefore(endTime) ? endTime : currentEndTime;
-//                } else {
-//                    // If there's a gap between the current and previous event
-//                    finalEventTimeList.add(Arrays.asList(currentStartTime, currentEndTime));
-//                    currentStartTime = startTime;
-//                    currentEndTime = endTime;
-//                }
-//            }
-//        }
-//
-//        // Add the last event time range
-//        if (currentStartTime != null && currentEndTime != null) {
-//            finalEventTimeList.add(Arrays.asList(currentStartTime, currentEndTime));
-//        }
-////        for (int i = 0; i < finalEventTimeList.size(); i++) {
-////            System.out.println(i + "th element in list " + finalEventTimeList.get(i));
-////        }
-//
-//        int durationInHours = slotRequestDto.getDuration(); // Duration of the event in hours
-//        List<List<LocalTime>> availableSlots = new ArrayList<>();
-//
-//// Total duration of the day (assuming from 00:00 to 23:59)
-//        LocalTime startOfDay = LocalTime.of(0, 0);
-//        LocalTime endOfDay = LocalTime.of(23, 59);
-//
-//// Iterate over the day in 2-hour slots
-//        for (LocalTime startTime = startOfDay; startTime.isBefore(endOfDay); startTime = startTime.plusHours(durationInHours)) {
-//            LocalTime endTime = startTime.plusHours(durationInHours);
-//
-//            // Check if this 2-hour slot overlaps with any busy time for any user
-//            boolean isAvailable = true;
-//            for (List<LocalTime> busyTimeRange : finalEventTimeList) {
-//                LocalTime busyStartTime = busyTimeRange.get(0);
-//                LocalTime busyEndTime = busyTimeRange.get(1);
-//
-//                if (!(endTime.isBefore(busyStartTime) || startTime.isAfter(busyEndTime))) {
-//                    // There's an overlap, mark this slot as unavailable
-//                    isAvailable = false;
-//                    break;
-//                }
-//            }
-//
-//            // If the slot is available, add it to the list of available slots
-//            if (isAvailable) {
-//                availableSlots.add(Arrays.asList(startTime, endTime));
-//            }
-//        }
-//
-//// Print the available slots
-//        for (int i = 0; i < availableSlots.size(); i++) {
-//            System.out.println(i + "th available slot: " + availableSlots.get(i).get(0) + " - " + availableSlots.get(i).get(1));
-//        }
-//
-//        return new ResponseEntity<>("ok",HttpStatus.OK);
+        List<List<LocalTime>> lacaltimeList = new ArrayList<>();
+        for (String userId : slotRequestDto.getRequiredUserIds()) {
+            List<ApplicationUser> user = repositoryHandler.findByField("_id",userId, ApplicationUser.class);
+            List<List<String>> eventList = user.get(0).getEventLists().get(slotRequestDto.getDate());
+            for (List currentList : eventList) {
+                String eventId =currentList.get(2).toString();
+                lacaltimeList.add(Arrays.asList(localTimeConverter(currentList.get(0).toString()),localTimeConverter(currentList.get(1).toString())));
+            }
+        }
+        lacaltimeList.sort((list1, list2) -> list1.get(0).compareTo(list2.get(0)));
+
+        List<List<LocalTime>> finalEventTimeList = new ArrayList<>();
+        LocalTime currentStartTime = null;
+        LocalTime currentEndTime = null;
+
+        for (List<LocalTime> timeRange : lacaltimeList) {
+            LocalTime startTime = timeRange.get(0);
+            LocalTime endTime = timeRange.get(1);
+            if (currentStartTime == null && currentEndTime == null) {
+                // Initialize current start and end times
+                currentStartTime = startTime;
+                currentEndTime = endTime;
+            } else {
+                if (startTime.isBefore(currentEndTime) || startTime.equals(currentEndTime)) {
+                    // If the current event overlaps with the previous one or starts immediately after it
+                    currentEndTime = currentEndTime.isBefore(endTime) ? endTime : currentEndTime;
+                } else {
+                    // If there's a gap between the current and previous event
+                    finalEventTimeList.add(Arrays.asList(currentStartTime, currentEndTime));
+                    currentStartTime = startTime;
+                    currentEndTime = endTime;
+                }
+            }
+        }
+
+        // Add the last event time range
+        if (currentStartTime != null && currentEndTime != null) {
+            finalEventTimeList.add(Arrays.asList(currentStartTime, currentEndTime));
+        }
+        for (int i = 0; i < finalEventTimeList.size(); i++) {
+            System.out.println(i + "th element in list " + finalEventTimeList.get(i));
+        }
+
+
+
+        List<List<LocalTime>> freeTimeIntervals = new ArrayList<>();
+
+        if (finalEventTimeList.isEmpty()) {
+            // If no events, the entire day is free
+            freeTimeIntervals.add(Arrays.asList(LocalTime.of(0, 0), LocalTime.of(23, 59, 59)));
+        } else {
+            // Iterate over the occupied time intervals to find free time intervals
+            LocalTime lastEndTime = LocalTime.of(0, 0);
+            for (List<LocalTime> event : finalEventTimeList) {
+                LocalTime eventStartTime = event.get(0);
+                LocalTime eventEndTime = event.get(1);
+
+                // Check if there's a gap between the last event and the current event
+                if (!eventStartTime.equals(lastEndTime)) {
+                    freeTimeIntervals.add(Arrays.asList(lastEndTime, eventStartTime));
+                }
+
+                lastEndTime = eventEndTime;
+            }
+
+            // Check if there's a gap after the last event until the end of the day
+            if (!lastEndTime.equals(LocalTime.of(23, 59, 59))) {
+                freeTimeIntervals.add(Arrays.asList(lastEndTime, LocalTime.of(23, 59, 59)));
+            }
+        }
+
+        // Print the free time intervals
+        for (int i = 0; i < freeTimeIntervals.size(); i++) {
+            System.out.println(i + "th free time interval: " + freeTimeIntervals.get(i));
+        }
+
+        int differenceHoursRequired = slotRequestDto.getDuration(); // Example duration
+
+        // Print the free time intervals that are greater than or equal to differenceHoursRequired
+        for (List<LocalTime> interval : freeTimeIntervals) {
+            long durationInHours = interval.get(0).until(interval.get(1), java.time.temporal.ChronoUnit.HOURS);
+            if (durationInHours >= differenceHoursRequired) {
+                System.out.println("Free time interval: " + interval);
+            }
+        }
+
+
+
+
+        return new ResponseEntity<>("ok",HttpStatus.OK);
     }
 
 }
