@@ -1,0 +1,6 @@
+spring:
+  data:
+    mongodb:
+      uri: "mongodb+srv://spritam675:DjRduh0t27ZPiM0M@cluster0.qo1o931.mongodb.net/calendifyPlus?retryWrites=true&w=majority"
+      connection-pool-size: 10
+      socket-timeout: 2000
