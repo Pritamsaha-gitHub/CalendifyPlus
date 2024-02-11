@@ -7,22 +7,32 @@ This is a prototype web application for scheduling calendar events, developed us
 1. **Create Busy Slots**: Allows users to create busy slots for themselves during the day.
    - Endpoint: `/rest/save/addEvent`
    - Method: POST
+   - <img width="628" alt="create busy slots" src="https://github.com/Pritamsaha-gitHub/CalendifyPlus/assets/112754980/6df4b598-728a-4324-8dc2-d8dee2b53441">
+
 
 2. **Fetch Events**: Allows users to fetch events of themselves and other users.
    - Endpoint: `/rest/retrive/fetchEvent`
    - Method: GET
+   - <img width="631" alt="fetch event" src="https://github.com/Pritamsaha-gitHub/CalendifyPlus/assets/112754980/c99fd35f-274b-4315-9ff3-8f20d462d51d">
+
 
 3. **Fetch Conflicting Events**: Allows users to fetch events where they have conflicts for a particular day.
    - Endpoint: `/rest/retrive/fetchConflict`
    - Method: GET
+   - <img width="856" alt="Fetch Conflict" src="https://github.com/Pritamsaha-gitHub/CalendifyPlus/assets/112754980/34ca061f-5e26-4810-bd34-cd1d7f7ac13e">
+
 
 4. **Fetch Favourable Upcoming Empty Slot**: Allows organizers of an event to fetch the most favorable upcoming empty slot for a given set of users and a particular duration.
    - Endpoint: `/rest/retrive/fetchUpcomingSlot`
    - Method: GET
+   - <img width="862" alt="Fetch Slot" src="https://github.com/Pritamsaha-gitHub/CalendifyPlus/assets/112754980/7249fb19-07b2-4358-9d09-1fc728abe099">
+
 
 5. **Create Event**: Allows users to create events with other users for a defined start time and end time.
    - Endpoint: `/rest/save/addEvent`
    - Method: POST
+   - <img width="633" alt="add group event" src="https://github.com/Pritamsaha-gitHub/CalendifyPlus/assets/112754980/4a8e1224-e67e-42bd-ab47-aada6065bf65">
+
 
 ## Technical Choices
 
