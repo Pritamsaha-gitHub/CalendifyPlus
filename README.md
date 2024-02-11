@@ -2,37 +2,26 @@
 
 This is a prototype web application for scheduling calendar events, developed using Java and MongoDB.
 
-## Getting Started
-
-To start the service and use the APIs, follow these steps:
-
-1. Clone the repository to your local machine.
-2. Ensure you have Java and MongoDB installed and running on your system.
-3. Navigate to the project directory.
-4. Build the project using your preferred build tool (e.g., Maven or Gradle).
-5. Start the application server.
-6. Use your preferred API testing tool (e.g., Postman) to interact with the APIs.
-
 ## Available APIs
 
 1. **Create Busy Slots**: Allows users to create busy slots for themselves during the day.
-   - Endpoint: `/api/busy-slots`
+   - Endpoint: `/rest/save/addEvent`
    - Method: POST
 
 2. **Fetch Events**: Allows users to fetch events of themselves and other users.
-   - Endpoint: `/api/events`
+   - Endpoint: `/rest/retrive/fetchEvent`
    - Method: GET
 
 3. **Fetch Conflicting Events**: Allows users to fetch events where they have conflicts for a particular day.
-   - Endpoint: `/api/conflicting-events`
+   - Endpoint: `/rest/retrive/fetchConflict`
    - Method: GET
 
 4. **Fetch Favourable Upcoming Empty Slot**: Allows organizers of an event to fetch the most favorable upcoming empty slot for a given set of users and a particular duration.
-   - Endpoint: `/api/favourable-slot`
-   - Method: POST
+   - Endpoint: `/rest/retrive/fetchUpcomingSlot`
+   - Method: GET
 
 5. **Create Event**: Allows users to create events with other users for a defined start time and end time.
-   - Endpoint: `/api/events`
+   - Endpoint: `/rest/save/addEvent`
    - Method: POST
 
 ## Technical Choices
@@ -58,6 +47,6 @@ If I were to spend additional time on the project, I would:
 
 ## Contributors
 
-- [Your Name](https://github.com/yourusername)
+- [Pritam Saha](https://github.com/Pritamsaha-gitHub?tab=repositories)
 
 Feel free to add more sections or customize the README according to your project's specific needs.
