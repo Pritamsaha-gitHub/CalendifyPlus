@@ -57,6 +57,6 @@ If I were to spend additional time on the project, I would:
 
 ## Contributors
 
-- [Pritam Saha](https://github.com/Pritamsaha-gitHub?tab=repositories)
+- [Pritam Saha](https://www.linkedin.com/in/pritamsaha-1996/)
 
 Feel free to add more sections or customize the README according to your project's specific needs.
