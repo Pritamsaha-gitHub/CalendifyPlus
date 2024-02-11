@@ -30,6 +30,17 @@ public class SaveRestService {
         return new ResponseEntity<>("User Register Sucessfully", HttpStatus.OK);
     }
 
+
+    /**
+     * Creates an event and saves it in the repository if the event's start time is valid.
+     * If the start time is in the past, returns a message indicating that the event cannot be created.
+     * Handles personal events differently based on the event type.
+     *
+     * @param event The event object to be created.
+     * @return ResponseEntity containing a success message if the event is created successfully,
+     *         or an error message if there's an issue saving the event.
+     */
+
     public ResponseEntity<String> createEvent(Event event) {
         if(isEventTimeValid(event.getStartTime(),event.getEndTime())) {
             try {
@@ -57,6 +68,15 @@ public class SaveRestService {
 
     }
 
+    /**
+     * Handles the creation of a personal event for a specific user.
+     *
+     * @param event The event object to be created.
+     * @param eventId The unique identifier of the event.
+     * @param startDateTime The start date and time of the event.
+     * @param userId The unique identifier of the user for whom the event is being created.
+     */
+
     private void handlePersonalEventCreation(Event event, String eventId, LocalDateTime startDateTime , String userId) {
         LocalDate startDate = startDateTime.toLocalDate();
         LocalTime startTime = startDateTime.toLocalTime();
@@ -76,6 +96,14 @@ public class SaveRestService {
         repositoryHandler.save(user);
     }
 
+    /**
+     * Checks if the provided event start time and end time are valid.
+     *
+     * @param startTime The start date and time of the event.
+     * @param endTime The end date and time of the event.
+     * @return true if the start time is after the current time and the end time is after the start time;
+     *         otherwise, false.
+     */
     public boolean isEventTimeValid(LocalDateTime startTime, LocalDateTime endTime) {
         LocalDateTime currentTime = LocalDateTime.now();
 
